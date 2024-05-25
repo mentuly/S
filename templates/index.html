@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Погода</title>
+</head>
+<body>
+    <h1>Погода на задану дату</h1>
+    <div id="weather-info"></div>
+
+    <script>
+        // Функція для виконання запиту до API OpenWeatherMap та відображення погоди
+        function displayWeather() {
+            var apiKey = 'YOUR_API_KEY'; // Потрібно замінити на ваш ключ API OpenWeatherMap
+            var date = '2024-05-25'; // Замініть це значення на задану дату
+            var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=London&appid=' + apiKey; // Приклад URL для запиту погоди у Лондоні
+            // Замініть "London" на ваше місцезнаходження або координати, якщо потрібно
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Отримання необхідних даних з відповіді API та їх відображення
+                    var weatherDiv = document.getElementById('weather-info');
+                    var weatherDescription = data.weather[0].description;
+                    var temperature = (data.main.temp - 273.15).toFixed(1); // Конвертація з Кельвінів у Цельсії
+
+                    weatherDiv.innerHTML = '<p><strong>Погода на ' + date + ':</strong></p>' +
+                        '<p>Опис: ' + weatherDescription + '</p>' +
+                        '<p>Температура: ' + temperature + '°C</p>';
+                })
+                .catch(error => console.error('Помилка отримання даних про погоду:', error));
+        }
+
+        // Виклик функції для відображення погоди при завантаженні сторінки
+        window.onload = displayWeather;
+    </script>
+</body>
+</html>
